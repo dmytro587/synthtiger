@@ -59,20 +59,21 @@ class SynthTiger(templates.Template):
         self.colormap2 = components.GrayMap(**config.get("colormap2", {}))
         self.colormap3 = components.GrayMap(**config.get("colormap3", {}))
         self.color = components.Gray(**config.get("color", {}))
-        self.shape = components.Switch(
-            components.Selector(
-                [components.ElasticDistortion(), components.ElasticDistortion()]
-            ),
-            **config.get("shape", {}),
-        )
+        # self.shape = components.Switch(
+        #     components.Selector(
+        #         [components.ElasticDistortion(), components.ElasticDistortion()]
+        #     ),
+        #     **config.get("shape", {}),
+        # )
         self.layout = components.Selector(
-            [components.FlowLayout(), components.CurveLayout()],
+            # [components.FlowLayout(), components.CurveLayout()],
+            [components.FlowLayout()],
             **config.get("layout", {}),
         )
         self.style = components.Switch(
             components.Selector(
                 [
-                    components.TextBorder(),
+                    # components.TextBorder(),
                     components.TextShadow(),
                     components.TextExtrusion(),
                 ]
@@ -84,8 +85,8 @@ class SynthTiger(templates.Template):
                 [
                     components.Perspective(),
                     components.Perspective(),
-                    components.Trapezoidate(),
-                    components.Trapezoidate(),
+                    # components.Trapezoidate(),
+                    # components.Trapezoidate(),
                     components.Skew(),
                     components.Skew(),
                     components.Rotate(),
@@ -223,7 +224,7 @@ class SynthTiger(templates.Template):
         font = self.font.sample({"text": text, "vertical": self.vertical})
 
         char_layers = [layers.TextLayer(char, **font) for char in chars]
-        self.shape.apply(char_layers)
+        # self.shape.apply(char_layers)
         self.layout.apply(char_layers, {"meta": {"vertical": self.vertical}})
         char_glyph_layers = [char_layer.copy() for char_layer in char_layers]
 
