@@ -141,7 +141,7 @@ transform:
         angle: [0, 5]
         ccw: 0.5
       # rotate
-      - angle: [0, 2]
+      - angle: [0, 0.5]
         ccw: 0.5
 
 pad:

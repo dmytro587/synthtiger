@@ -214,8 +214,39 @@ class SynthTiger(templates.Template):
 
         return fg_color, fg_style, mg_color, mg_style, bg_color
 
+    def _generate_label(self, max_length = 25):
+        chars_and_digits = [c for c in 'abcdefghijklmnopqrstuvwxyz0123456789']
+        lines = "p/s"
+        symbols = [c for c in "|-_+()\"'.," + lines[1]]
+
+        amount_of_words = np.random.randint(1, 3)
+        seq = []
+
+        for word_idx in range(amount_of_words):
+            word_len = np.random.randint(2, max_length // amount_of_words)
+
+            for i in range(word_len):
+                if np.random.uniform() > 0.9:
+                    new_sym = np.random.choice(symbols)
+                else:
+                    new_sym = np.random.choice(chars_and_digits)
+
+                if np.random.uniform() > 0.5:
+                    new_sym = new_sym.upper()
+
+                if np.random.uniform() > 0.9 and len(seq) > 1:
+                    new_sym = seq[-1]
+
+                seq.append(new_sym)
+
+            if word_idx < amount_of_words - 1:
+                seq.append(' ')
+
+        return ''.join(seq)
+
     def _generate_text(self, color, style):
-        label = self.corpus.data(self.corpus.sample())
+        # label = self.corpus.data(self.corpus.sample())
+        label = self._generate_label()
 
         # for script using diacritic, ligature and RTL
         chars = utils.split_text(label, reorder=True)
