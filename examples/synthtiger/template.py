@@ -85,10 +85,8 @@ class SynthTiger(templates.Template):
                 [
                     components.Perspective(),
                     components.Perspective(),
-                    # components.Trapezoidate(),
-                    # components.Trapezoidate(),
-                    components.Skew(),
-                    components.Skew(),
+                    # components.Skew(),
+                    # components.Skew(),
                     components.Rotate(),
                 ]
             ),
@@ -115,6 +113,10 @@ class SynthTiger(templates.Template):
             fg_color, fg_style
         )
         bg_image = self._generate_background(fg_image.shape[:2][::-1], bg_color)
+
+        # print('bg_color:', bg_color)
+        # cv2.imshow('img', np.array(bg_image, dtype=np.uint8))
+        # cv2.waitKey(0)
 
         if midground:
             mg_image, _, _, _, _ = self._generate_text(mg_color, mg_style)
@@ -262,12 +264,11 @@ class SynthTiger(templates.Template):
         text_layer = layers.Group(char_layers).merge()
         text_glyph_layer = text_layer.copy()
 
-        transform = self.transform.sample()
         self.color.apply([text_layer, text_glyph_layer], color)
         self.texture.apply([text_layer, text_glyph_layer])
         self.style.apply([text_layer, *char_layers], style)
-        self.transform.apply(
-            [text_layer, text_glyph_layer, *char_layers, *char_glyph_layers], transform
+        transform_meta = self.transform.apply(
+            [text_layer, text_glyph_layer, *char_layers, *char_glyph_layers], self.transform.sample(),
         )
         self.fit.apply([text_layer, text_glyph_layer, *char_layers, *char_glyph_layers])
         self.pad.apply([text_layer])
@@ -287,9 +288,20 @@ class SynthTiger(templates.Template):
 
     def _generate_background(self, size, color):
         layer = layers.RectLayer(size)
+        # print('size:', size)
+        # print('color.apply')
         self.color.apply([layer], color)
-        self.texture.apply([layer])
+        # print('texture.apply')
+        self.texture.apply([layer], {'state': True})
+
+        # cv2.imshow('texture-layer-image', np.array(layer.output(), dtype=np.uint8))
+        # cv2.waitKey(0)
+
         out = layer.output()
+
+        # cv2.imshow('texture-out', np.array(layer.output(), dtype=np.uint8))
+        # cv2.waitKey(0)
+
         return out
 
     def _erase_image(self, image, mask):

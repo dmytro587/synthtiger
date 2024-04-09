@@ -10,6 +10,8 @@ import time
 
 import synthtiger
 
+# python3 -m synthtiger -o results -c 100 -w 8 -v examples/synthtiger/template.py SynthTiger examples/synthtiger/config_horizontal.yaml
+
 
 def run(args):
     if args.config is not None:

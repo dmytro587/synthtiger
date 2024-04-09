@@ -43,7 +43,7 @@ texture:
   args:
     paths: [resources/image]
     weights: [1]
-    alpha: [0, 1]
+    alpha: [0.15, 1]
     grayscale: 0
     crop: 1
 
@@ -115,8 +115,8 @@ style:
 transform:
   prob: 1
   args:
-    # weights: [1, 1, 1, 1, 1, 1, 2]
-    weights: [1, 1, 1, 1, 2]
+    # weights: [1, 1, 1, 1, 2]
+    weights: [1, 1, 2]
     args:
       # perspective x
       - percents: [[0.5, 1], [1, 1]]
@@ -124,24 +124,16 @@ transform:
       # perspective y
       - percents: [[1, 1], [0.5, 1]]
         aligns: [[0, 0], [0, 0]]
-      # # trapezoidate x
-      # - weights: [1, 0, 1, 0]
-      #   percent: [0.75, 1]
-      #   align: [-1, 1]
-      # # trapezoidate y
-      # - weights: [0, 1, 0, 1]
-      #   percent: [0.5, 1]
-      #   align: [-1, 1]
       # skew x
-      - weights: [1, 0]
-        angle: [0, 5]
-        ccw: 0.5
-      # skew y
-      - weights: [0, 1]
-        angle: [0, 5]
-        ccw: 0.5
+      # - weights: [1, 0]
+      #   angle: [0, 5]
+      #   ccw: 0.5
+      # # skew y
+      # - weights: [0, 1]
+      #   angle: [0, 5]
+      #   ccw: 0.5
       # rotate
-      - angle: [0, 0.5]
+      - angle: [0, 1.0]
         ccw: 0.5
 
 pad:

@@ -48,6 +48,17 @@ class BaseTexture(Component):
         x = meta.get("x", np.random.randint(0, width - w + 1) if crop else 0)
         y = meta.get("y", np.random.randint(0, height - h + 1) if crop else 0)
 
+        # return {
+        #     'path': 'resources/image/depositphotos_53287521-stock-illustration-frame-for-diploma-certificate-or.jpg',
+        #     'alpha': 1,
+        #     'grayscale': False,
+        #     'crop': True,
+        #     'x': 406,
+        #     'y': 5,
+        #     'w': 167,
+        #     'h': 400,
+        # }
+
         meta = {
             "path": path,
             "alpha": alpha,
@@ -65,10 +76,17 @@ class BaseTexture(Component):
         meta = self.sample(meta)
         texture = self.data(meta)
 
+        # print('meta:', meta)
+        # import cv2
+
         for layer in layers:
+            # print('layer_shape:', layer.image.shape)
             height, width = layer.image.shape[:2]
             image = utils.resize_image(texture, (width, height))
             layer.image = utils.blend_image(image, layer.image, mask=True)
+
+            # cv2.imshow('texture', np.array(layer.image, dtype=np.uint8))
+            # cv2.waitKey(0)
 
         return meta
 
@@ -77,6 +95,10 @@ class BaseTexture(Component):
         texture = self._read_texture(meta["path"], meta["grayscale"])
         texture = texture[y : y + h, x : x + w, ...]
         texture[..., 3] *= meta["alpha"]
+        # import cv2
+        # print('texture data log:', meta)
+        # cv2.imshow('texture data', np.array(texture, dtype=np.uint8))
+        # cv2.waitKey(0)
         return texture
 
     def _update_paths(self):
